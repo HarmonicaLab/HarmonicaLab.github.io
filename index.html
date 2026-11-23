@@ -79,6 +79,14 @@ footer .brand img{width:72px;height:72px}
 .thumb{aspect-ratio:16/9;display:grid;place-items:center;position:relative;background:linear-gradient(135deg,#1b1714,#3a2a18)}
 .thumb b{font-family:Anton,sans-serif;font-weight:400;color:#f3efe8;font-size:clamp(20px,2.4vw,26px);text-align:center;padding:0 24px;line-height:1.1}
 .thumb::after{content:"";position:absolute;right:14px;bottom:14px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 7l8 5-8 5z' fill='white'/%3E%3C/svg%3E") center/22px no-repeat;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.4)}
+.vgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:900px){.vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.vgrid{grid-template-columns:minmax(0,1fr)}}
+@media(min-width:601px){.vid.wide{grid-column:span 2}}
+@media(min-width:601px){.vid.wide{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}
+.vid.wide .thumb{aspect-ratio:auto;height:100%;min-height:260px}
+.vid.wide .meta{display:flex;flex-direction:column;justify-content:center;padding:28px}
+.vid.wide .vt{font-family:Anton,sans-serif;font-weight:400;font-size:clamp(26px,2.6vw,34px);line-height:1.08}}
 .thumb.has-img{background:#000;overflow:hidden}
 .thumb.has-img img{color:transparent;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s}
 .vid:hover .thumb.has-img img{transform:scale(1.04)}
@@ -229,7 +237,7 @@ footer .brand{justify-content:center;color:var(--ink);margin-bottom:10px}
       <div><h2>Dal canale YouTube</h2><p class="lead">Ogni venerdì un nuovo tutorial su un brano, più la Blues Week: un pezzo da studiare nel fine settimana.</p></div>
       <a class="btn b-red" href="https://www.youtube.com/@harmonicalabbysimonenobile?sub_confirmation=1">Iscriviti al canale</a>
     </div>
-    <div class="grid" id="videos"></div>
+    <div class="grid vgrid" id="videos"></div>
   </div>
 </section>
 
@@ -347,16 +355,18 @@ footer .brand{justify-content:center;color:var(--ink);margin-bottom:10px}
 {
 const EMAIL = "infoharmonicalab@gmail.com";
 const videos = [
-  {t:"Armonica per principianti", s:"Da zero al tuo primo brano", tag:"Il più visto", id:"LnYHLZB4Gok"},
+  {t:"Armonica per principianti", s:"Da zero al tuo primo brano", tag:"Il più visto", id:"LnYHLZB4Gok", wide:true},
   {t:"5 esercizi pratici per suonare blues", s:"Mini lezione #2", tag:"Esercizi", id:"lLc2KimC2ro"},
   {t:"Effetti e tecniche per improvvisare", s:"Armonica diatonica", tag:"Improvvisazione", id:"uy4lyZLfLKY"},
   {t:"I segreti per un'improvvisazione perfetta", s:"Improvvisazione blues", tag:"Improvvisazione", id:"QW2wh8RcqpA"},
+  {t:"Le 5 regole del bending perfetto", s:"Mini lezione · bending", tag:"Tecnica", id:"WGmITvkwHI4"},
   {t:"Blue Midnight", s:"Little Walter · tutorial del venerdì", tag:"Brani", id:"snew34auZI0"},
-  {t:"Drinking by myself", s:"William Clarke · tutorial del brano", tag:"Brani", id:"BLWOUEyE6Lg"}
+  {t:"Drinking by myself", s:"William Clarke · tutorial del brano", tag:"Brani", id:"BLWOUEyE6Lg"},
+  {t:"Tongue block: il segreto per un suono blues", s:"Slap e pull slap · tutorial", tag:"Tecnica", id:"KBV40reUodo"}
 ];
 const ch = "https://www.youtube.com/@harmonicalabbysimonenobile/videos";
 document.getElementById('videos').innerHTML = videos.map(v=>v.id
-  ? `<a class="vid glass" href="https://www.youtube.com/watch?v=${v.id}" data-yt="${v.id}" data-title="${v.t}"><div class="thumb has-img"><img src="https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'" alt="${v.t}" loading="lazy"></div><div class="meta"><span class="tag">${v.tag}</span><h3 class="vt">${v.t}</h3><p>${v.s}</p></div></a>`
+  ? `<a class="vid glass${v.wide?' wide':''}" href="https://www.youtube.com/watch?v=${v.id}" data-yt="${v.id}" data-title="${v.t}"><div class="thumb has-img"><img src="https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'" alt="${v.t}" loading="lazy"></div><div class="meta"><span class="tag">${v.tag}</span><h3 class="vt">${v.t}</h3><p>${v.s}</p></div></a>`
   : `<a class="vid glass" href="${ch}"><div class="thumb"><b>${v.t}</b></div><div class="meta"><span class="tag">${v.tag}</span><p style="margin-top:8px">${v.s}</p></div></a>`).join('');
 const dlg = document.getElementById('player'), frame = document.getElementById('player-frame');
 document.querySelectorAll('[data-yt]').forEach(a=>a.addEventListener('click',e=>{
