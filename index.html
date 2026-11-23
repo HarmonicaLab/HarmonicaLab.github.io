@@ -66,6 +66,7 @@ footer .brand img{width:72px;height:72px}
 .legend{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;margin-top:14px;font-size:14px;font-weight:600;color:var(--mute)}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
 .hole{transition:fill .35s,filter .35s}
+.num{transition:fill .35s}.num.lit{fill:#15120f}
 .hole.on-b{fill:var(--goldf);filter:drop-shadow(0 0 8px rgba(212,166,58,.9))}
 .hole.on-d{fill:var(--redf);filter:drop-shadow(0 0 8px rgba(194,64,47,.9))}
 .motto{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:28px;font-family:Anton,sans-serif;font-size:clamp(20px,3vw,28px)}
@@ -220,8 +221,8 @@ footer .brand{justify-content:center;color:var(--ink);margin-bottom:10px}
         <rect x="60" y="182" width="880" height="56" rx="18" fill="url(#plate)" stroke="#fff" stroke-width="2"/>
         <rect x="74" y="112" width="852" height="76" rx="6" fill="url(#comb)"/>
         <g id="holes"></g>
-        <g id="nums" font-family="Anton,sans-serif" font-size="24" text-anchor="middle" fill="#3d3832" style="paint-order:stroke" stroke="#ffffff" stroke-width="1.2" stroke-opacity=".7"></g>
-        <text x="500" y="218" text-anchor="middle" font-family="Montserrat,sans-serif" font-weight="800" font-style="italic" font-size="20" fill="#5a534a" letter-spacing="2">HARMONICA LAB</text>
+        <g id="nums" font-family="Anton,sans-serif" font-size="26" text-anchor="middle" fill="#f3efe8" pointer-events="none"></g>
+        <text x="500" y="98" text-anchor="middle" font-family="Montserrat,sans-serif" font-weight="800" font-style="italic" font-size="20" fill="#5a534a" letter-spacing="2">HARMONICA LAB</text>
         <rect x="60" y="62" width="880" height="176" rx="18" fill="url(#shine)" opacity=".5" pointer-events="none"/>
               </svg>
       <div class="legend"><span><i style="background:var(--goldf)"></i>Soffiato</span><span><i style="background:var(--redf)"></i>Aspirato</span><span>Un riff blues, foro per foro: <b id="readout" style="color:var(--ink)">1 soffiato</b></span></div>
@@ -417,15 +418,18 @@ for (let i=0;i<10;i++){
   const r = document.createElementNS(NS,'rect');
   Object.entries({x, y:128, width:56, height:44, rx:8, fill:'#4a4038', class:'hole'}).forEach(([k,v])=>r.setAttribute(k,v));
   hg.appendChild(r); holes.push(r);
-  const t = document.createElementNS(NS,'text'); t.setAttribute('x', x+28); t.setAttribute('y', 104); t.textContent = i+1; ng.appendChild(t);
+  const t = document.createElementNS(NS,'text'); t.setAttribute('x', x+28); t.setAttribute('y', 160); t.setAttribute('class','num'); t.textContent = i+1; ng.appendChild(t);
 }
+const nums = [...ng.querySelectorAll('text')];
 const riff = [[1,'b'],[2,'d'],[3,'b'],[4,'b'],[4,'d'],[5,'b'],[4,'d'],[4,'b'],[3,'b'],[2,'d']];
 const out = document.getElementById('readout');
 let k = 0;
 const step = ()=>{
   holes.forEach(h=>h.classList.remove('on-b','on-d'));
+  nums.forEach(t=>t.classList.remove('lit'));
   const [n,m] = riff[k % riff.length];
   holes[n-1].classList.add(m==='b'?'on-b':'on-d');
+  nums[n-1].classList.add('lit');
   out.textContent = n + (m==='b' ? ' soffiato' : ' aspirato');
   k++;
 };
