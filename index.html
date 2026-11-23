@@ -97,6 +97,9 @@ footer .brand img{width:72px;height:72px}
 .tier header{padding:22px 22px 34px;text-align:center;color:#f7f1e6}
 .tier header small{display:block;font-weight:800;font-style:italic;font-size:15px;letter-spacing:.03em}
 .tier header b{display:block;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(34px,3.6vw,44px);line-height:1;margin-top:4px}
+.tier.rec{box-shadow:0 0 0 3px #d4a63a,0 0 50px rgba(212,166,58,.45),0 18px 40px rgba(0,0,0,.4);transform:translateY(-12px)}
+@media(max-width:960px){.tier.rec{transform:none;order:-1}}
+.badge{display:inline-block;margin:-6px auto 10px;background:linear-gradient(#f7d982,#d4a63a);color:#15120f;font-weight:800;font-style:italic;font-size:13px;padding:5px 14px;border-radius:999px;box-shadow:0 4px 10px rgba(0,0,0,.3)}
 .t-fan header{background:linear-gradient(160deg,#2a2420,#0f0d0b)}
 .t-aca header{background:linear-gradient(160deg,#1f3b66,#0e1d36)}
 .t-blu header{background:linear-gradient(160deg,#b3301f,#6e170e)}
@@ -337,7 +340,7 @@ const tiers = [
   {c:"t-fan", top:"HARMONICA LAB", name:"FAN", price:"4,99 €", items:[
     ["Badge fedeltà esclusivo"],["Emoji personalizzate HL"],["Chat live e chat room riservate agli abbonati"],
     ["Risposta prioritaria ai commenti"],["Accesso in anteprima ai nuovi video"],["Harmonica Lab Trascribe","trascrizioni e tablature base"]]},
-  {c:"t-aca", top:"HL HARMONICA", name:"ACADEMY", price:"9,99 €", prev:true, items:[
+  {c:"t-aca rec", top:"HL HARMONICA", name:"ACADEMY", price:"9,99 €", prev:true, items:[
     ["Video corso Armonica Facile","principianti"],["Video corso Armonica Facile","intermedi"],
     ["Live streaming riservati agli abbonati","Q&A, lezioni, jam"],["Video riservati agli abbonati","tutorial, riff, tecniche"],
     ["Harmonica Lab Trascriber Tool","trascrizioni avanzate e loop"]]},
@@ -346,7 +349,7 @@ const tiers = [
     ["Risposta prioritaria ai commenti"],["Harmonica Lab Trascriber Tool Pro","trascrizioni, loop, cambio tonalità"],
     ["Contenuti esclusivi avanzati","overblow, overdraw, effetti, stili"],["Sessioni live esclusive","masterclass, workshop, feedback"]]}
 ];
-document.getElementById('tiers').innerHTML = tiers.map(t=>`<article class="tier ${t.c}"><header><small>${t.top}</small><b>${t.name}</b></header><div class="pill">${t.price}<small>/mese</small></div><ul>${t.items.map(i=>`<li>${i[0]}${i[1]?`<span>${i[1]}</span>`:''}</li>`).join('')}${t.prev?'<li class="prev">Tutti i vantaggi del livello precedente</li>':''}</ul>${pdfBox}<a class="btn" href="${join}">Scegli ${t.name==='FAN'?'Fan':t.top==='HL BLUES'?'Blues Academy':'Academy'}</a></article>`).join('');
+document.getElementById('tiers').innerHTML = tiers.map(t=>`<article class="tier ${t.c}"><header>${t.c.includes('rec')?'<span class="badge">★ Consigliato</span>':''}<small>${t.top}</small><b>${t.name}</b></header><div class="pill">${t.price}<small>/mese</small></div><ul>${t.items.map(i=>`<li>${i[0]}${i[1]?`<span>${i[1]}</span>`:''}</li>`).join('')}${t.prev?'<li class="prev">Tutti i vantaggi del livello precedente</li>':''}</ul>${pdfBox}<a class="btn" href="${join}">Scegli ${t.name==='FAN'?'Fan':t.top==='HL BLUES'?'Blues Academy':'Academy'}</a></article>`).join('');
 
 const ic = {
   pitch:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h3l2-6 3 12 3-9 2 5 2-2h5"/></svg>',
