@@ -147,6 +147,11 @@ footer .brand img{width:72px;height:72px}
 /* tool */
 .tool .ico{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:var(--ink);color:var(--bg)}
 .tool .ico svg{width:30px;height:30px}
+.tool-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.tag-free{background:#e5f4e4;color:#1d5b2a}
+.tag-lock{background:var(--redf);color:#fff;display:inline-flex;align-items:center;gap:6px}
+.lv{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:15px;color:var(--mute)}
+.lv b{color:var(--ink)}
 .tool code{font-size:13px;color:var(--mute);overflow-wrap:anywhere}
 /* chi sono + contatti */
 .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
@@ -289,7 +294,7 @@ footer .brand{justify-content:center;color:var(--ink);margin-bottom:10px}
 
 <section class="band" id="tool">
   <div class="wrap">
-    <div class="sec-head"><div><h2>I tool gratuiti</h2><p class="lead">Strumenti che uso nelle lezioni, aperti a tutti dal browser, senza installare niente.</p></div></div>
+    <div class="sec-head"><div><h2>I tool di Harmonica Lab</h2><p class="lead">Strumenti che uso nelle lezioni, dal browser e senza installare niente: l'Harmonica Tool è gratuito per tutti, l'HL Transcriber è riservato agli abbonati dell'Academy.</p></div></div>
     <div class="grid" id="tools"></div>
   </div>
 </section>
@@ -356,10 +361,11 @@ const ic = {
   tab:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9h2M11 9h2M15 9h2M7 14h4M13 14h4"/></svg>'
 };
 const tools = [
-  {n:"Harmonica Tool", d:"Riconoscimento dell'intonazione in tempo reale, mappa delle note e dei bending, selettore di scala e circolo delle quinte.", u:"https://harmonicalab.github.io/harmonica/", i:"pitch"},
-  {n:"Tab Transcriber", d:"Suoni e lui scrive la tablatura: fori, soffiati, aspirati e bending, con battute, esportazione e sessioni salvate.", u:"https://harmonicalab.github.io/harmonica/tabscriber/", i:"tab"}
+  {n:"Harmonica Tool", tag:"Gratuito", d:"Riconoscimento dell'intonazione in tempo reale, mappa delle note e dei bending, selettore di scala e circolo delle quinte.", u:"https://harmonicalab.github.io/harmonica/", i:"pitch"},
+  {n:"HL Transcriber", tag:"Solo abbonati", lock:true, d:"Suoni e lui scrive la tablatura: fori, soffiati, aspirati e bending, con battute, esportazione e sessioni salvate.", i:"tab",
+   lv:[["Fan","trascrizioni e tablature base"],["Academy","trascrizioni avanzate e loop"],["Blues Academy","versione Pro, con cambio di tonalità"]]}
 ];
-document.getElementById('tools').innerHTML = tools.map(t=>`<div class="card glass tool"><div class="ico">${ic[t.i]}</div><h3>${t.n}</h3><p>${t.d}</p><code>${t.u.replace('https://','')}</code><a class="btn b-gold" style="align-self:flex-start" href="${t.u}">Apri il tool</a></div>`).join('');
+document.getElementById('tools').innerHTML = tools.map(t=>`<div class="card glass tool${t.lock?' locked':''}"><div class="tool-top"><div class="ico">${ic[t.i]}</div><span class="tag ${t.lock?'tag-lock':'tag-free'}">${t.lock?'<svg width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><rect x="1" y="6" width="10" height="7.5" rx="1.8" fill="currentColor"/><path d="M3.3 6V4.3a2.7 2.7 0 015.4 0V6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>':''}${t.tag}</span></div><h3>${t.n}</h3><p>${t.d}</p>${t.lock?`<ul class="lv">${t.lv.map(l=>`<li><b>${l[0]}</b> · ${l[1]}</li>`).join('')}</ul><a class="btn b-ink" style="align-self:flex-start" href="#academy">Sbloccalo con l'Academy</a>`:`<code>${t.u.replace('https://','')}</code><a class="btn b-gold" style="align-self:flex-start" href="${t.u}">Apri il tool</a>`}</div>`).join('');
 
 /* armonica: riff in sequenza */
 const NS = "http://www.w3.org/2000/svg", hg = document.getElementById('holes'), ng = document.getElementById('nums');
